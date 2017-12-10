@@ -1,0 +1,5 @@
+/* Lorsqu'une page est activée dans la barre de navigation, cette classe est attribuée au nom de la page dans la barre de navigation */
+.active {
+    background-color: black !important;
+    color: #FFFFFF !important;
+}

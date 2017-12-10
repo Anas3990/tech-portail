@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-lg-12">
+      <div class="page-header">
+          <h1><i class="fa fa-user fa-fw"></i> Bonjour {{ (authService.user | async)?.firstName }} {{ (authService.user | async)?.name }}! <small>Mon profil</small></h1>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+      <div class="btn-toolbar" role="toolbar">
+      
+          <div class="btn-group">
+              <a [routerLink]="['modify/infos']" class="btn btn-default"><i class="fa fa-user fa-fw"></i> Modifier mes informations</a>
+          </div>
+          
+          <div class="btn-group">
+              <a [routerLink]="['modify/password']" class="btn btn-default"><i class="fa fa-lock fa-fw"></i> Modifier mon mot de passe</a>
+          </div>
+      
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Informations personnelles</h3>
+      </div>
+
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+                            
+          <dt>Prénom</dt>
+          <dd>{{ (authService.user | async)?.firstName }}</dd>
+                  
+          <dt>Nom</dt>
+          <dd>{{ (authService.user | async)?.name }}</dd>
+                                                              
+          <dt>Rôle</dt>
+          <dd></dd>
+                  
+          <dt>Groupe</dt>
+          <dd>{{ (authService.user | async)?.group }}</dd>
+                                          
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Informations de contact</h3>
+      </div>
+
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+              
+          <dt>Courriel</dt>
+          <dd><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:{{ (authService.user | async)?.email }}">{{ (authService.user | async)?.email }}</a></dd>
+                  
+          <dt>Téléphone (cellulaire)</dt>
+          <dd><i class="fa fa-mobile fa-fw"></i> {{ (authService.user | async)?.mobilePhoneNumber }}</dd>
+                  
+          <dt>Téléphone (maison #1)</dt>
+          <dd><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber1 }}</dd>
+                  
+          <dt>Téléphone (maison #2)</dt>
+          <dd><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber2 }}</dd>                                     
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

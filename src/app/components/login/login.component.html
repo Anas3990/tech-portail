@@ -1,0 +1,44 @@
+<div class="row login-container">
+  <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2 hidden-xs">
+    <img src="../../../assets/img/T4K_ROUND.png" class="img-responsive" alt="&Eacute;quipe Team 3990: Tech for Kids">               
+  </div>
+
+  <div class="col-lg-4 col-md-4">
+    <form (ngSubmit)="authService.signInWith(email, password, rememberMe)" #loginForm="ngForm">                
+      <h2 class="form-signin-heading login-heading">Se connecter</h2>
+                  
+      <p>Pour continuer sur <strong>Tech Portail</strong>, veuillez vous connecter.</p>
+        
+      <div class="alert alert-danger" *ngIf="">
+        <i class="fa fa-exclamation-circle fa-fw fa-2x pull-left"></i>
+        <div style="margin-left: 50px">Le nom d'utilisateur et/ou le mot de passe est incorrect. Veuillez réessayer à nouveau.</div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group" style="margin-bottom: 10px">
+          <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+          <input class="form-control" placeholder="Courriel" email="true" [(ngModel)]="email" name="email" id="email" type="email" required>                        
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+          <input class="form-control" placeholder="Mot de passe" minlength="6" [(ngModel)]="password" name="password" id="password" type="password" required>                        
+        </div>
+      </div>
+
+      <label class="checkbox">
+        <input [(ngModel)]="rememberMe" name="rememberMe" id="rememberMe" type="checkbox"/> Se souvenir de moi sur cet ordinateur
+      </label>
+               
+      <p>
+        <button class="btn btn-t4k" type="submit" [disabled]="!loginForm.form.valid">Connexion <i class="fa fa-chevron-circle-right fa-fw"></i></button>
+      </p>
+                  
+      <p>
+        <a routerLink="/forgot-password">Mon mot de passe oublié?</a><a routerLink="/user-signup"><br />Première utilisation?</a>
+      </p>             
+    </form>                    
+  </div>                  
+</div>

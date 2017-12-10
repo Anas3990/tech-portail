@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-lg-12">
+    <form #attendanceForm="ngForm" (ngSubmit)="postAttendance()">
+      <div class="alert alert-warning">
+        <i class="fa fa-question-circle fa-fw fa-3x pull-left"></i>
+        <div style="margin-left: 75px;">
+          <h3 style="margin: 0">Confirmez votre présence</h3>
+          <p>Serez-vous présent à l'évènement</p>
+
+          <div class="row">
+            <div class="col-lg-4">
+              <p>
+                <button type="submit" class="btn btn-success" [disabled]="!attendanceForm.form.valid">
+                  <i class="fa fa-check-circle fa-fw"></i>
+                  Oui, je serai présent(e)
+                </button>
+              </p>
+            </div>
+            <div class="col-lg-4">
+                           
+            </div>
+            <div class="col-lg-4">
+              
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <button type="submit" class="btn btn-danger">
+                <i class="fa fa-times-circle fa-fw"></i>
+                Non, je serai absent(e)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </form>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-muted small">
+    <dl class="dl-horizontal">
+          
+      <dt>Début</dt>
+      <dd><i class="fa fa-clock-o fa-fw"></i> le {{ startDate | date:'fullDate' }}, à {{ startDate | date:'shortTime' }}</dd>
+          
+      <dt>Fin</dt>
+      <dd><i class="fa fa-clock-o fa-fw"></i> le {{ startDate | date:'fullDate' }}, à {{ endDate | date:'shortTime' }}</dd>
+          
+      <dt>Créé par</dt>
+      <dd><i class="fa fa-user fa-fw"></i> {{ author.name }} (<i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:{{ author.email }}">{{ author.email }}</a>)</dd>
+          
+    </dl>
+  </div>
+
+  <div class="panel-body">
+    <h1 style="margin-top: 0; padding-top: 0">{{ title }}</h1>
+    <hr />
+    <div style="white-space: pre-line;">
+      {{ body }}  
+    </div>      
+  </div>
+
+  <ul class="list-group" *ngIf="">
+    <li class="list-group-item">
+      Pièce(s) jointe(s) :
+      <ul>
+        <li>
+          <a target="_blank"><i class="fa fa-cloud-download fa-fw"></i> </a> 
+          <span class="text-muted"></span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-check-circle fa-fw"></i> Personnes présentes</h3>
+      </div>
+      <table class="table small table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th class="text-center">Début</th>
+            <th class="text-center">Fin</th>
+            <th class="text-center">Confirmé à</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let attendance of attendances">
+            <td>{{ attendance.attendantName }}</td>
+            <td>{{ attendance.attendanceStartsAt | date: 'shortTime' }}</td>
+            <td>{{ attendance.attendanceEndsAt | date: 'shortTime' }}</td>
+            <td>{{ attendance.confirmedAt | date: 'short' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="text-center active" colspan="4">{{ attendances?.length }} présent(e)(s)</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-times-circle fa-fw"></i> Personnes absentes</h3>
+      </div>
+      <table class="table small table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th class="text-center">Confirmé à</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nonAttendance of nonAttendances">
+            <td>{{ nonAttendance.nonAttendantName }}</td>
+            <td class="text-center">{{ nonAttendance.confirmedAt | date: 'short' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="text-center active" colspan="3">{{ nonAttendances?.length }} absent(e)(s)</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

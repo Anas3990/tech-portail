@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <button type="button" class="close" (click)="bsModalRef.hide()"><span>&times;</span></button>
+  <h4 class="modal-title"><i class="fa fa-file-o fa-fw"></i> Ajouter des fichiers</h4>
+</div>
+
+<div class="modal-body">
+    <p>Sélectionnez les fichiers à ajouter au dossier actuel :</p>
+
+    <div id="uploading" class="hide">
+        &nbsp;
+        <p>Téléchargement des fichiers en cours...</p>
+        <div class="progress"><div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 100%"></div></div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" id="submit-add-files" class="btn btn-warning"><i class="fa fa-plus fa-fw"></i> Ajouter les fichiers</button>
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()"><i class="fa fa-times-circle fa-fw"></i> Annuler</button>
+</div>

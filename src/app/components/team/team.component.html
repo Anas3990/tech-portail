@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="page-header">
+      <h1><i class="fa fa-users fa-fw"></i> Équipe <small>Tous les utilisateurs</small></h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group">
+        <a class="btn btn-default"><i class="fa fa-print fa-fw"></i> Imprimer la liste des membres de l'équipe</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <tabset>
+      <tab heading='Élèves'>
+        <table class="table table-condensed table-hover small">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Courriel</th>
+              <th class="text-center">Groupe</th>
+              <th>Téléphone (maison #1)</th>
+              <th>Téléphone (maison #2)</th>
+              <th>Téléphone (mobile)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>{{ student.name }}</td>
+              <td>{{ student.firstName }}</td>
+              <td><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:{{ student.email }}">{{ student.email }}</a></td>
+              <td class="text-center">{{ student.group }}</td>
+              <td>{{ student.homePhoneNumber1 }}</td>
+              <td>{{ student.homePhoneNumber2 }}</td>
+              <td>{{ student.mobilePhoneNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+      <tab heading='Mentors'>
+        <table class="table table-condensed table-hover small">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Courriel</th>
+              <th>Titre professionnel</th>
+              <th>Téléphone (mobile)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mentor of mentors">
+              <td>{{ mentor.name }}</td>
+              <td>{{ mentor.firstName }}</td>
+              <td><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:{{ mentor.email }}">{{ mentor.email }}</a></td>
+              <td>{{ mentor.professionalTitle }}</td>
+              <td>{{ mentor.mobilePhoneNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+    </tabset>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-muted text-center small">
+        <hr />
+          Équipe Team 3990: Tech for Kids.
+          <i class="fa fa-info-circle fa-fw"></i> Version 1.0.0 (20170905). <a href="#">Change Log</a>.
+          <i class="fa fa-question-circle fa-fw"></i> Soutien technique: <a href="mailto:anas.merbouh@outlook.com">anas.merbouh@outlook.com</a>
+          <br />
+          <i class="fa fa-facebook fa-fw"></i> facebook.com/team3990
+          <i class="fa fa-twitter fa-fw"></i> @team3990
+          <i class="fa fa-youtube-play fa-fw"></i> youtube.com/team3990
+          <i class="fa fa-google-plus fa-fw"></i> Google+
+          <i class="fa fa-tumblr fa-fw"></i> team3990.tumblr.com
+          <i class="fa fa-pinterest fa-fw"></i> pinterest.com/team3990
+          <i class="fa fa-instagram fa-fw"></i> @team3990
+          <i class="fa fa-github fa-fw"></i> github.com/team3990
+      <hr />
+    </div>
+  </div>
+</div>

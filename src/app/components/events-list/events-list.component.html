@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-lg-12">
+      <div class="page-header">
+          <h1><i class="fa fa-bullhorn fa-fw"></i> Calendrier <small>Tous les évènements</small></h1>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group">
+        <a routerLink="post-event" class="btn btn-default"><i class="fa fa-plus fa-fw"></i> Ajouter un évènement</a>
+      </div> 
+    </div> 
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">                                    
+    <tabset>
+      <tab heading="À venir" id="upComing">
+        <div class="panel panel-default panel-tabs">
+          <div class="list-group">
+            <a class="list-group-item" *ngFor="let event of upComingEvents" [routerLink]="['afficher/'+event.id]" routerLinkActive="list-group-item-warning">
+              <p class="list-group-item-subtitle small">Le {{ event.startDate | date:'fullDate' }}, de {{ event.startDate | date:'shortTime' }} à {{ event.endDate | date:'shortTime' }}</p>
+              <p class="list-group-item-heading"><strong>{{ event.title }}</strong></p>
+              <p class="list-group-item-text small description">{{ event.body }}</p>
+            </a>
+
+            <div class="panel-body" *ngIf="upComingEvents?.length == 0">
+              <div class="alert alert-warning text-center">Aucune évènement à venir.</div>
+            </div>
+          </div>
+        </div>  
+      </tab>
+    
+      <tab heading="Passés" id="past">
+        <div class="panel panel-default panel-tabs">
+          <div class="list-group">
+            <a class="list-group-item" *ngFor="let event of pastEvents" [routerLink]="['afficher/'+event.id]" routerLinkActive="list-group-item-warning">
+              <p class="list-group-item-subtitle small">Le {{ event.startDate | date:'fullDate' }}, de {{ event.startDate | date:'shortTime' }} à {{ event.endDate | date:'shortTime' }}</p>
+              <p class="list-group-item-heading"><strong>{{ event.title }}</strong></p>
+              <p class="list-group-item-text small description">{{ event.body }}</p>
+            </a>
+
+            <div class="panel-body" *ngIf="pastEvents?.length == 0">
+              <div class="alert alert-warning text-center">Aucun évènement passé.</div>
+            </div>
+          </div>
+        </div>  
+      </tab>
+    </tabset>                               
+  </div>
+
+  <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>

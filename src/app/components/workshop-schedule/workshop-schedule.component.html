@@ -1,0 +1,129 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="page-header">
+      <h1><i class="fa fa-clock-o fa-fw"></i> Horaire <small>Heures d'ouverture de Tech Atelier (<em>Tech Workshop</em>)</small></h1>
+    </div>
+  </div>
+</div>
+
+
+<div class="row"> 
+  <div class="col-lg-12">
+    <p class="lead">Évènements à venir</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">Évènement</th>
+          <th class="text-center" style="width: 200px">Heures d'ouverture</th>
+          <th class="text-center" style="width: 300px">Mentor(s) présent(s)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let event of upComingEvents">
+          <td style="width: 50px"><i class="fa fa-calendar fa-fw fa-2x text-muted" style="margin-top: 5px"></i></td>
+          <td>
+            <span class="small text-muted">Le {{ event.startDate | date:'fullDate' }}, de {{ event.startDate | date:'shortTime' }} à {{ event.endDate | date:'shortTime' }}</span><br />
+            <strong><a [routerLink]="['/events/afficher/'+event.id]">{{ event.title }}</a></strong>
+          </td>
+          <td>
+            <div class="clock">
+              {{ event.startDate | date:'shortTime' }}
+              <i class="fa fa-caret-right fa-fw"></i>
+              {{ event.endDate | date:'shortTime' }}
+            </div>
+          </td>
+
+          <td>
+            <div class="row small text-muted">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="clock clock-small">
+
+                  <i class="fa fa-caret-right fa-fw"></i>
+
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+      <p class="lead">Évènements antérieurs</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group pull-right">
+              <button class="btn btn-noborder disabled">
+
+                  <i class="fa fa-files-o fa-fw"></i> Page(s) : 
+              </button>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">Évènement</th>
+          <th class="text-center" style="width: 200px">Heures d'ouverture</th>
+          <th class="text-center" style="width: 300px">Mentor(s) présent(s)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let event of pastEvents">
+          <td style="width: 50px"><i class="fa fa-calendar fa-fw fa-2x text-muted" style="margin-top: 5px"></i></td>
+          <td>
+            <span class="small text-muted">Le {{ event.startDate | date:'fullDate' }}, de {{ event.startDate | date:'shortTime' }} à {{ event.endDate | date:'shortTime' }}</span><br />
+            <strong><a [routerLink]="['/events/afficher/'+event.id]">{{ event.title }}</a></strong>
+          </td>
+
+          <td>
+            <div class="clock">
+              {{ event.startDate | date:'shortTime' }}
+              <i class="fa fa-caret-right fa-fw"></i>
+              {{ event.endDate | date:'shortTime' }}
+            </div>
+          </td>
+
+          <td>
+            <div class="row small text-muted">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                      
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="clock clock-small">
+
+                  <i class="fa fa-caret-right fa-fw"></i>
+
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

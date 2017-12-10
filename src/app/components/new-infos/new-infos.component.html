@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+    <div class="panel-heading text-muted small">
+      <dl class="dl-horizontal">
+    
+          <dt>Date</dt>
+          <dd><i class="fa fa-clock-o fa-fw"></i> Le {{ timestamp | date:'fullDate' }}</dd>
+          
+          <dt>Créé par</dt>
+          <dd><i class="fa fa-user fa-fw"></i> {{ author.name }} (<i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:{{ author.email }}">{{ author.email }}</a>)</dd>
+          
+        </dl>
+    </div>
+    <div class="panel-body">
+      <h1 style="margin-top: 0; padding-top: 0">{{ title }}</h1>
+      <hr />
+      <div style="white-space: pre-line;">
+        {{ body }}  
+      </div>      
+    </div>
+
+    <ul class="list-group" *ngIf="">
+      <li class="list-group-item">
+        Pièce(s) jointe(s) :
+        <ul>
+          <li>
+            <a target="_blank"><i class="fa fa-cloud-download fa-fw"></i> </a> 
+            <span class="text-muted"></span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+</div>

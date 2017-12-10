@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <button type="button" class="close" (click)="bsModalRef.hide()"><span>&times;</span></button>
+    <h4 class="modal-title"><i class="fa fa-folder fa-fw"></i> Créer un nouveau dossier</h4>
+</div>
+
+<form (ngSubmit)="addFolder()" #addFolderForm="ngForm">
+  <div class="modal-body">
+      <p>Veuillez indiquer un nom pour le nouveau dossier à créer.</p>
+      <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-plus fa-fw"></i></span>
+          <input class="form-control" placeholder="Nom du dossier" [(ngModel)]="name" id="name" name="name" required>  
+      </div>
+      &nbsp;
+  </div>
+
+  <div class="modal-footer">
+      <button type="submit" class="btn btn-warning" [disabled]="!addFolderForm.form.valid"><i class="fa fa-plus fa-fw"></i> Créer le nouveau dossier</button>
+      <button type="button" class="btn btn-default" (click)="bsModalRef.hide()"><i class="fa fa-times-circle fa-fw"></i> Annuler</button>
+  </div>
+</form>
