@@ -12,7 +12,7 @@ import { New } from './../../models/New';
 import { Folder } from './../../models/Folder';
 import { Event } from './../../models/Event';
 import { User } from './../../models/User';
-import { Attendance, NonAttendance } from './../../models/Attendance';
+import { Attendance } from './../../models/Attendance';
 
 @Injectable()
 export class FirebaseService {
@@ -51,14 +51,14 @@ export class FirebaseService {
 
   //
   attendancesCollection: AngularFirestoreCollection<Attendance>;
-  nonAttendancesCollection: AngularFirestoreCollection<NonAttendance>;
+  nonAttendancesCollection: AngularFirestoreCollection<Attendance>;
   attendances: Observable<Attendance[]>;
-  nonAttendances: Observable<NonAttendance[]>;
+  nonAttendances: Observable<Attendance[]>;
 
   attendanceDoc: AngularFirestoreDocument<Attendance>;
-  nonAttendanceDoc: AngularFirestoreDocument<NonAttendance>;
+  nonAttendanceDoc: AngularFirestoreDocument<Attendance>;
   attendance: Observable<Attendance>;
-  nonAttendance: Observable<NonAttendance>;
+  nonAttendance: Observable<Attendance>;
 
   constructor(private afs: AngularFirestore) { }
 
@@ -134,7 +134,7 @@ export class FirebaseService {
 
     this.nonAttendances = this.nonAttendancesCollection.snapshotChanges().map(array => {
       return array.map(snapshot => {
-        const data = snapshot.payload.doc.data() as NonAttendance;
+        const data = snapshot.payload.doc.data() as Attendance;
         const id = snapshot.payload.doc.id;
         return { id, ...data };
       })

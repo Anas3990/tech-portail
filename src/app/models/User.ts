@@ -1,5 +1,11 @@
 import { Url } from "url";
 
+export interface Roles {
+    admin?: boolean
+    mentor?: boolean
+    junior_mentor?: boolean
+}
+
 export interface User{
     uid: string
     email: string
@@ -11,5 +17,5 @@ export interface User{
     homePhoneNumber1?: string
     homePhoneNumber2?: string
     mobilePhoneNumber?: string
-    role: string
+    roles: Roles
 }

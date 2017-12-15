@@ -13,6 +13,8 @@ import * as firebase from 'firebase/app';
 
 // Permet d'utiliser les fontions du Service afin de pouvoir enregistrer les token des utilisateurs et ainsi leur envoyer des notifications
 import { CloudMessagingService } from '../FCM/cloud-messaging.service';
+
+//
 import { User } from '../../models/User';
 
 @Injectable()
@@ -52,7 +54,9 @@ export class AuthService {
           this.router.navigate(['/dashboard'])
           this.cloudMsgService.saveMessagingDeviceToken()
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(alert)
+        })
       })
       .catch(error => console.log(error))
     } else {
@@ -75,8 +79,12 @@ export class AuthService {
   // Fonction qui permet à d'envoyer un courriel de réinitialisation de mot passe
   sentPasswordResetEmail(email: string) {
     this.afAuth.auth.sendPasswordResetEmail(email)
-      .then(_ => console.log("Le message a été envoyé avec succès"))
-      .catch(error => console.log(error))
+      .then(_ => {
+
+      })
+      .catch(error => {
+
+      })
   }
 
   // Fonction qui permet à un utilisateur de réinitialiser son mot de passe
@@ -98,5 +106,30 @@ export class AuthService {
           console.warn(error)
         })
     }
+  }
+
+  //
+  private checkAuthorization(user: User, allowedRoles: string[]) {
+    if (!user) return false
+
+    for (const role of allowedRoles) {
+      if (user.roles[role]) {
+        return true
+      }
+    }
+    
+    return false
+  }
+
+  canWrite(user: User): boolean {
+    const allowed = ['admin', 'mentor']
+    
+    return this.checkAuthorization(user, allowed)
+  }
+
+  isAdmin(user: User): boolean {
+    const allowed = ['admin']
+
+    return this.checkAuthorization(user, allowed)
   }
 }

@@ -1,11 +1,8 @@
 export interface Attendance {
-    attendanceStartsAt: Date
-    attendanceEndsAt: Date
+    attendanceStartsAt?: Date
+    attendanceEndsAt?: Date
     confirmedAt: Date
-    attendantName: string
-}
-
-export interface NonAttendance {
-    confirmedAt: Date
-    nonAttendantName: string
+    attendantName?: string
+    nonAttendantName?: string
+    present: boolean
 }

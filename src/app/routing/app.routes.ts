@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule ,Routes } from "@angular/router";
 import { AuthGuard } from './../guards/auth.guard';
+import { AdminGuard } from './../guards/admin.guard';
+import { CanWriteGuard } from './../guards/can-write.guard';
 
 //
 import { NewInfosResolverService } from './../services/resolvers/new-infos-resolver.service';
@@ -75,7 +77,8 @@ export const appRoutes: Routes = [
     },
     {
       path: 'post-new',
-      component: AddNewComponent
+      component: AddNewComponent,
+      canActivate: [CanWriteGuard]
     }
   ]},
 
@@ -127,7 +130,8 @@ export const appRoutes: Routes = [
     },
     {
       path: 'post-event',
-      component: AddEventComponent
+      component: AddEventComponent,
+      canActivate: [CanWriteGuard]
     }
   ]},
   
@@ -137,7 +141,7 @@ export const appRoutes: Routes = [
   { path: 'users', component: TeamComponent, canActivate: [AuthGuard] },
 
   //
-  { path: 'manage-users', component: ManageUsersComponent, canActivate: [AuthGuard] },
+  { path: 'manage-users', component: ManageUsersComponent, canActivate: [AdminGuard] },
 
   //
   { path: 'profile',

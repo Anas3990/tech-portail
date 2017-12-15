@@ -35,6 +35,8 @@ import { EventInfosResolverService } from './services/resolvers/event-infos-reso
 
 // Guards de l'application
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { CanWriteGuard } from './guards/can-write.guard';
 
 // Module de NG2 SmartTable
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -133,6 +135,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     { provide: LOCALE_ID, useValue: "fr-CA" },
     AuthService, 
     AuthGuard,
+    AdminGuard,
+    CanWriteGuard,
     FirebaseService,
     UploadService,
     CloudMessagingService,

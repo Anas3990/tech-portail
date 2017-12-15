@@ -12,7 +12,7 @@ import { FirebaseService } from './../../services/database/firebase.service';
 
 //
 import { Event } from './../../models/Event';
-import { Attendance, NonAttendance } from './../../models/Attendance';
+import { Attendance } from './../../models/Attendance';
 
 @Component({
   selector: 'app-event-infos',
@@ -26,7 +26,7 @@ export class EventInfosComponent implements OnInit {
 
   //
   attendances: Attendance[];
-  nonAttendances: NonAttendance[];
+  nonAttendances: Attendance[];
 
   //
   author: any;
@@ -36,6 +36,9 @@ export class EventInfosComponent implements OnInit {
   title: string;
   body: string;
   event: any;
+
+  //
+  private attendancesCollection: AngularFirestoreCollection<Attendance>;
 
   constructor(private router: Router, private route: ActivatedRoute, private dbService: FirebaseService, private afs: AngularFirestore) { }
 
@@ -51,16 +54,19 @@ export class EventInfosComponent implements OnInit {
       this.event = data.eventObject;
     });
     
-    this.dbService.getAttendances('7Gz3BuES9oib8HEg7Xk1').subscribe(attendances => {
+    //
+    this.dbService.getAttendances('eL0i6yN1f0hKRnbys8o0').subscribe(attendances => {
       this.attendances = attendances;
     });
     
-    this.dbService.getNonAttendances('7Gz3BuES9oib8HEg7Xk1').subscribe(nonAttendances => {
+    this.dbService.getNonAttendances('eL0i6yN1f0hKRnbys8o0').subscribe(nonAttendances => {
       this.nonAttendances = nonAttendances;
     });
   }
 
   postAttendance() {
     let timestamp = firebase.firestore.FieldValue.serverTimestamp()
+
+
   }
 }

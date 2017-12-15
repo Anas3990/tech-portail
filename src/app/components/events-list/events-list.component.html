@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-lg-12">
     <div class="btn-toolbar" role="toolbar">
-      <div class="btn-group">
+      <div class="btn-group" *ngIf="authService.canWrite(user)">
         <a routerLink="post-event" class="btn btn-default"><i class="fa fa-plus fa-fw"></i> Ajouter un évènement</a>
       </div> 
     </div> 

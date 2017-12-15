@@ -21,7 +21,7 @@
                           
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden-xs" *ngIf="authService.user | async as user"><p class="navbar-text">Bonjour, <strong>{{ user.firstName }}</strong>!</p></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['manage-users']" routerLinkActive="active"><i class="fa fa-address-card-o fa-fw"></i> Gérer les membres</a></li>
+        <li *ngIf="authService.isAdmin(user)"><a [routerLink]="['manage-users']" routerLinkActive="active"><i class="fa fa-address-card-o fa-fw"></i> Gérer les membres</a></li>
         <li *ngIf="authService.user | async as user"><a [routerLink]="['profile']" routerLinkActive="active"><i class="fa fa-user fa-fw"></i> Mon compte</a></li>
         <li *ngIf="authService.user | async as user"><a (click)="authService.logout()"><i class="fa fa-power-off fa-fw"></i> Se déconnecter</a></li>
         <li class="dropdown hidden-xs">

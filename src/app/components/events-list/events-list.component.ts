@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 //
 import { FirebaseService } from '../../services/database/firebase.service';
+import { AuthService } from '../../services/authentification/auth.service';
 
 //
 import { Event } from '../../models/Event';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-events-list',
@@ -12,10 +14,14 @@ import { Event } from '../../models/Event';
   styleUrls: ['./events-list.component.css']
 })
 export class EventsListComponent implements OnInit {
+  //
   upComingEvents: Event[];
   pastEvents: Event[];
 
-  constructor(private dbService: FirebaseService) { }
+  //
+  user: User;
+
+  constructor(private dbService: FirebaseService, private authService: AuthService) { }
 
   ngOnInit() {
     this.dbService.getUpComingEvents().subscribe(upComingEvents => {
@@ -25,6 +31,11 @@ export class EventsListComponent implements OnInit {
     this.dbService.getPastEvents().subscribe(pastEvents => {
       this.pastEvents = pastEvents;
     });
+
+    //
+    this.authService.user.subscribe(user => {
+      this.user = user;
+    })
   }
 
 }
