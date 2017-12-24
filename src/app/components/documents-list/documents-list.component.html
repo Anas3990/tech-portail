@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="authService.canWrite(user)">
   <div class="col-lg-12">
     <div class="btn-toolbar" role="toolbar">
       <div class="btn-group">
@@ -37,7 +37,7 @@
               <th>Type</th>
               <th style="width: 100px">Taille</th>
               <th style="width: 200px" class="text-center">Dernière modification</th>
-              <th style="width: 80px">Actions</th>
+              <th style="width: 80px" *ngIf="authService.canWrite(user)">Actions</th>
           </tr>
       </thead>
       <tbody>
@@ -47,12 +47,33 @@
           <td>Dossier</td>
           <td class="text-right"></td>
           <td class="text-center">{{ folder.timestamp |  date:'short' }}</td>
-          <td>
+          <td *ngIf="authService.canWrite(user)">
             <a class="btn btn-default btn-xs"><i class="fa fa-pencil fa-fw"></i></a> 
             <a class="btn btn-default btn-xs"><i class="fa fa-trash-o fa-fw"></i></a>
         </td>
         </tr>
       </tbody>
   </table>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-muted text-center small">
+        <hr />
+          Équipe Team 3990: Tech for Kids.
+          <i class="fa fa-info-circle fa-fw"></i> Version 1.0.0 (20170905). <a href="#">Change Log</a>.
+          <i class="fa fa-question-circle fa-fw"></i> Soutien technique: <a href="mailto:anas.merbouh@outlook.com">anas.merbouh@outlook.com</a>
+          <br />
+          <i class="fa fa-facebook fa-fw"></i> facebook.com/team3990
+          <i class="fa fa-twitter fa-fw"></i> @team3990
+          <i class="fa fa-youtube-play fa-fw"></i> youtube.com/team3990
+          <i class="fa fa-google-plus fa-fw"></i> Google+
+          <i class="fa fa-tumblr fa-fw"></i> team3990.tumblr.com
+          <i class="fa fa-pinterest fa-fw"></i> pinterest.com/team3990
+          <i class="fa fa-instagram fa-fw"></i> @team3990
+          <i class="fa fa-github fa-fw"></i> github.com/team3990
+      <hr />
+    </div>
   </div>
 </div>

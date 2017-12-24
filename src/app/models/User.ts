@@ -3,7 +3,6 @@ import { Url } from "url";
 export interface Roles {
     admin?: boolean
     mentor?: boolean
-    junior_mentor?: boolean
 }
 
 export interface User{

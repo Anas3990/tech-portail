@@ -36,12 +36,16 @@
                   
           <dt>Nom</dt>
           <dd>{{ (authService.user | async)?.name }}</dd>
-                                                              
+          
+          <dt *ngIf="authService.canWrite(user)">Titre professionnel</dt>
+          <dd *ngIf="authService.canWrite(user)">{{ (authService.user | async)?.professionalTitle }}</dd>
+
           <dt>Rôle</dt>
-          <dd></dd>
+          <dd *ngIf="authService.canWrite(user)">Mentor</dd>
+          <dd *ngIf="!authService.canWrite(user)">Élève</dd>
                   
-          <dt>Groupe</dt>
-          <dd>{{ (authService.user | async)?.group }}</dd>
+          <dt *ngIf="!authService.canWrite(user)">Groupe</dt>
+          <dd *ngIf="!authService.canWrite(user)">{{ (authService.user | async)?.group }}</dd>
                                           
         </dl>
       </div>
@@ -61,13 +65,34 @@
           <dt>Téléphone (cellulaire)</dt>
           <dd><i class="fa fa-mobile fa-fw"></i> {{ (authService.user | async)?.mobilePhoneNumber }}</dd>
                   
-          <dt>Téléphone (maison #1)</dt>
-          <dd><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber1 }}</dd>
+          <dt *ngIf="!authService.canWrite(user)">Téléphone (maison #1)</dt>
+          <dd *ngIf="!authService.canWrite(user)"><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber1 }}</dd>
                   
-          <dt>Téléphone (maison #2)</dt>
-          <dd><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber2 }}</dd>                                     
+          <dt *ngIf="!authService.canWrite(user)">Téléphone (maison #2)</dt>
+          <dd *ngIf="!authService.canWrite(user)"><i class="fa fa-phone fa-fw"></i> {{ (authService.user | async)?.homePhoneNumber2 }}</dd>                                     
         </dl>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-muted text-center small">
+        <hr />
+          Équipe Team 3990: Tech for Kids.
+          <i class="fa fa-info-circle fa-fw"></i> Version 1.0.0 (20170905). <a href="#">Change Log</a>.
+          <i class="fa fa-question-circle fa-fw"></i> Soutien technique: <a href="mailto:anas.merbouh@outlook.com">anas.merbouh@outlook.com</a>
+          <br />
+          <i class="fa fa-facebook fa-fw"></i> facebook.com/team3990
+          <i class="fa fa-twitter fa-fw"></i> @team3990
+          <i class="fa fa-youtube-play fa-fw"></i> youtube.com/team3990
+          <i class="fa fa-google-plus fa-fw"></i> Google+
+          <i class="fa fa-tumblr fa-fw"></i> team3990.tumblr.com
+          <i class="fa fa-pinterest fa-fw"></i> pinterest.com/team3990
+          <i class="fa fa-instagram fa-fw"></i> @team3990
+          <i class="fa fa-github fa-fw"></i> github.com/team3990
+      <hr />
     </div>
   </div>
 </div>

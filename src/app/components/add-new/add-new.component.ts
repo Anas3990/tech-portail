@@ -73,7 +73,10 @@ export class AddNewComponent {
         },
         'timestamp': timestamp
       }).then(_ => {
-        this.router.navigate(['/news']);
+        this.alerts.push({
+          type: 'success',
+          msg: 'La nouvelle a été publiée avec succèes !'
+        })
       }).catch(error => {
         this.alerts.push({
           type: 'danger',
@@ -91,7 +94,10 @@ export class AddNewComponent {
         },
         'timestamp': timestamp
       }).then(_ => {
-        this.router.navigate(['/news']);
+        this.alerts.push({
+          type: 'success',
+          msg: 'La nouvelle a été publiée avec succèes !'
+        })
       }).catch(error => {
         this.alerts.push({
           type: 'danger',

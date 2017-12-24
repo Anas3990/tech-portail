@@ -8,7 +8,11 @@ import { AddFolderComponent } from './../add-folder/add-folder.component';
 import { AddFileComponent } from './../add-file/add-file.component';
 
 //
+import { AuthService } from './../../services/authentification/auth.service';
+
+//
 import { Folder } from './../../models/Folder';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-documents-list',
@@ -19,11 +23,19 @@ export class DocumentsListComponent implements OnInit {
   //
   folders: Folder[];
 
-  constructor(private dbService: FirebaseService) { }
+  //
+  user: User;
+
+  constructor(private dbService: FirebaseService, public authService: AuthService) { }
 
   ngOnInit() {
     this.dbService.getFolders().subscribe(folders => {
       this.folders = folders;
     });
+
+    //
+    this.authService.user.subscribe(user => {
+      this.user = user;
+    })
   }
 }

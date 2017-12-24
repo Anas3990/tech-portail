@@ -86,7 +86,6 @@ import { ModifyAccountComponent } from './components/modify-account/modify-accou
 
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

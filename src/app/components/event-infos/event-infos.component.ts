@@ -8,7 +8,11 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import * as firebase from 'firebase';
 
 //
+import { AngularFireAuth } from 'angularfire2/auth';
+
+//
 import { FirebaseService } from './../../services/database/firebase.service';
+import { AuthService } from './../../services/authentification/auth.service';
 
 //
 import { Event } from './../../models/Event';
@@ -40,7 +44,7 @@ export class EventInfosComponent implements OnInit {
   //
   private attendancesCollection: AngularFirestoreCollection<Attendance>;
 
-  constructor(private router: Router, private route: ActivatedRoute, private dbService: FirebaseService, private afs: AngularFirestore) { }
+  constructor(private router: Router, private route: ActivatedRoute, private dbService: FirebaseService, private authService: AuthService, private afs: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   ngOnInit() {
     //
@@ -55,11 +59,11 @@ export class EventInfosComponent implements OnInit {
     });
     
     //
-    this.dbService.getAttendances('eL0i6yN1f0hKRnbys8o0').subscribe(attendances => {
+    this.dbService.getAttendances('W1A4LJaP4LHYGCTEeQ6y').subscribe(attendances => {
       this.attendances = attendances;
     });
     
-    this.dbService.getNonAttendances('eL0i6yN1f0hKRnbys8o0').subscribe(nonAttendances => {
+    this.dbService.getNonAttendances('W1A4LJaP4LHYGCTEeQ6y').subscribe(nonAttendances => {
       this.nonAttendances = nonAttendances;
     });
   }
@@ -68,5 +72,15 @@ export class EventInfosComponent implements OnInit {
     let timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
 
+  }
+
+  postNonAttendance() {
+    let timestamp = firebase.firestore.FieldValue.serverTimestamp()
+
+    this.afs.collection("events").doc('W1A4LJaP4LHYGCTEeQ6y').collection("attendances").doc(this.afAuth.auth.currentUser.uid).set({
+      'nonAttendantName': "Anas Merbouh", 
+      'present': false, 
+      'confirmedAt': timestamp
+    })
   }
 }

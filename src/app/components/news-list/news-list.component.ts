@@ -23,7 +23,7 @@ export class NewsListComponent implements OnInit {
   //
   user: User;
 
-  constructor(private dbService: FirebaseService, private authService: AuthService) { }
+  constructor(private dbService: FirebaseService, public authService: AuthService) { }
   
   ngOnInit() {
     //

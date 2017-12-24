@@ -21,7 +21,7 @@ export class EventsListComponent implements OnInit {
   //
   user: User;
 
-  constructor(private dbService: FirebaseService, private authService: AuthService) { }
+  constructor(private dbService: FirebaseService, public authService: AuthService) { }
 
   ngOnInit() {
     this.dbService.getUpComingEvents().subscribe(upComingEvents => {

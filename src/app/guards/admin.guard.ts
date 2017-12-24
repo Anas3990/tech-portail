@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> {
     return this.authService.user.pipe(
       take(1),
-      map(user => user && this.authService.canWrite(user) ? true : false),
+      map(user => user && this.authService.isAdmin(user) ? true : false),
       tap(canView => {
         if (!canView) {
           this.router.navigate(['dashboard'])
