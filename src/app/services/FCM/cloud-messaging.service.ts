@@ -13,6 +13,10 @@ export class CloudMessagingService {
   user: Observable<firebase.User>;
   currentUser: firebase.User;
 
+  //
+  currentMessage = new BehaviorSubject(null)
+  messages: Observable<any>
+
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   // Saves the messaging device token to the datastore.
@@ -40,4 +44,10 @@ export class CloudMessagingService {
         console.error(err);
       });
     };
+
+    receiveMessage() {
+      firebase.messaging().onMessage((payload) => {
+        this.currentMessage.next(payload);
+      });
+    }
 }

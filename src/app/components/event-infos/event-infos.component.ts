@@ -33,6 +33,12 @@ export class EventInfosComponent implements OnInit {
   nonAttendances: Attendance[];
 
   //
+  isAttending: boolean
+
+  //
+  userFullName: string;
+
+  //
   author: any;
   timestamp: any;
   startDate: Date;
@@ -44,7 +50,13 @@ export class EventInfosComponent implements OnInit {
   //
   private attendancesCollection: AngularFirestoreCollection<Attendance>;
 
-  constructor(private router: Router, private route: ActivatedRoute, private dbService: FirebaseService, private authService: AuthService, private afs: AngularFirestore, private afAuth: AngularFireAuth) { }
+  constructor(private router: Router, private route: ActivatedRoute, private dbService: FirebaseService, private authService: AuthService, private afs: AngularFirestore, private afAuth: AngularFireAuth) {
+    this.authService.user.subscribe(_ => {
+      this.authService.user.subscribe(user => {
+        this.userFullName = user.firstName + " " + user.name
+      });
+    })
+   }
 
   ngOnInit() {
     //
@@ -59,15 +71,19 @@ export class EventInfosComponent implements OnInit {
     });
     
     //
-    this.dbService.getAttendances('W1A4LJaP4LHYGCTEeQ6y').subscribe(attendances => {
+    this.dbService.getAttendances('7X3knRl0WMXMVNB1u93z').subscribe(attendances => {
       this.attendances = attendances;
     });
     
-    this.dbService.getNonAttendances('W1A4LJaP4LHYGCTEeQ6y').subscribe(nonAttendances => {
+    this.dbService.getNonAttendances('7X3knRl0WMXMVNB1u93z').subscribe(nonAttendances => {
       this.nonAttendances = nonAttendances;
     });
-  }
 
+    this.dbService.getUserAttendance('7X3knRl0WMXMVNB1u93z').subscribe(attendance => {
+      this.isAttending = attendance;
+    })
+  }
+  
   postAttendance() {
     let timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
@@ -77,8 +93,8 @@ export class EventInfosComponent implements OnInit {
   postNonAttendance() {
     let timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
-    this.afs.collection("events").doc('W1A4LJaP4LHYGCTEeQ6y').collection("attendances").doc(this.afAuth.auth.currentUser.uid).set({
-      'nonAttendantName': "Anas Merbouh", 
+    this.afs.collection("events").doc('7X3knRl0WMXMVNB1u93z').collection("attendances").doc(this.afAuth.auth.currentUser.uid).set({
+      'nonAttendantName': this.userFullName, 
       'present': false, 
       'confirmedAt': timestamp
     })

@@ -1,26 +1,58 @@
-<div class="row login-container">
-  <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2 hidden-xs">
-    <img src="../../../assets/img/T4K_ROUND.png" class="img-responsive" alt="&Eacute;quipe Team 3990: Tech for Kids">  
-  </div>
+<ng-container *ngIf="(authService.user | async) || {} as user">
+  <div class="row login-container">
+    <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2 hidden-xs">
+      <img src="../../../assets/img/T4K_ROUND.png" class="img-responsive" alt="&Eacute;quipe Team 3990: Tech for Kids">  
+    </div>
+  
+    <div class="col-lg-4 col-md-4">
+      <form [formGroup]="signupForm" *ngIf="!user.uid" (ngSubmit)="signup()">
+        <h2 class="form-signin-heading login-heading">Créer un compte</h2> 
+        <p>Veuillez indiquer votre courriel ainsi que votre mot de passe afin de pouvoir créer un compte sur <strong>Tech Portail</strong>.</p>
+  
+        <alert *ngIf="notifyService.msg | async as msg" type="danger">
+          <i class="fa fa-exclamation-circle fa-fw fa-2x pull-left"></i>
+          <div style="margin-left: 50px">
+            {{ msg.content }}
+          </div>
+        </alert>
 
-  <div class="col-lg-4 col-md-4">
-    <form (ngSubmit)="authService.signUpWith(email, password)" #signUpForm="ngForm">
-      <h2 class="form-signin-heading login-heading">Créer un compte</h2> 
-      <p>Veuillez indiquer votre prénom, votre nom, votre courriel ainsi que votre mot de passe afin de pouvoir créer un compte sur <strong>Tech Portail</strong>.</p>
-
-      <div class="input-group" style="margin-bottom: 10px">
-        <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-        <input class="form-control" placeholder="Courriel" email="true" [(ngModel)]="email" name="email" id="email" type="email" required> 
-      </div>
-    
-      <div class="form-group">
-        <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
-          <input class="form-control" placeholder="Mot de passe" minlength="6" [(ngModel)]="password" name="password" id="password" type="password" required>                        
+        <div class="input-group" style="margin-bottom: 10px" [ngClass]="{'has-error': email.invalid && email.dirty}">
+          <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+          <input class="form-control" placeholder="Courriel" formControlName="email" id="email" type="email" required> 
         </div>
-      </div>
-                  
-      <p><button type="submit" class="btn btn-t4k" [disabled]="!signUpForm.form.valid">Créer un compte <i class="fa fa-chevron-circle-right fa-fw"></i></button></p>  
-    </form>  
-  </div>              
-</div>
+      
+        <div class="form-group">
+          <div class="input-group" [ngClass]="{'has-error': password.invalid && password.dirty}">
+            <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+            <input class="form-control" placeholder="Mot de passe" formControlName="password" id="password" type="password" required>                    
+          </div>
+        </div>
+                    
+        <p><button type="submit" class="btn btn-t4k" [disabled]="!signupForm.valid">Continuer <i class="fa fa-chevron-circle-right fa-fw"></i></button></p>  
+      </form>  
+
+      <form [formGroup]="detailForm" *ngIf="user.uid && !user.firstName && !user.name" (ngSubmit)="setAdditionalData(user)">
+        <h2 class="form-signin-heading login-heading">Créer un compte</h2> 
+        <p>Veuillez indiquer votre prénom ainsi que votre nom afin de pouvoir finaliser votre compte sur <strong>Tech Portail</strong>.</p>
+  
+        <div class="input-group" style="margin-bottom: 10px" [ngClass]="{'has-error': firstName.invalid && firstName.dirty}">
+          <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+          <input class="form-control" placeholder="Prénom" formControlName="firstName" id="firstName"> 
+        </div>
+      
+        <div class="form-group">
+          <div class="input-group" [ngClass]="{'has-error': name.invalid && name.dirty}">
+            <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+            <input class="form-control" placeholder="Nom" formControlName="name" id="name">                     
+          </div>
+        </div>
+                    
+        <p><button type="submit" class="btn btn-t4k" [disabled]="!detailForm.valid">Créer mon compte <i class="fa fa-chevron-circle-right fa-fw"></i></button></p>  
+      </form>
+
+      <h2 class="form-signin-heading login-heading" *ngIf="user.firstName && user.name">Créer un compte</h2> 
+      <p *ngIf="user.firstName && user.name">Votre compte a été crée avec succès ! Veuillez patienter le temps que votre compte soit vérifié avant de continuer sur <strong>Tech Portail</strong>.</p>
+    </div>              
+  </div>
+</ng-container>
+

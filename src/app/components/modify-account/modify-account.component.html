@@ -6,11 +6,7 @@
     </div>
 </div>
     
-<form class="form-horizontal" (ngSubmit)="updateAccountInfos()" #updateAccountInfosForm="ngForm">   
-    <div *ngFor="let alert of alerts">
-        <alert [type]="alert.type" [dismissible]="true"><span [innerHtml]="alert.msg"></span></alert>
-    </div>
-
+<form class="form-horizontal" #updateAccountInfosForm="ngForm">   
     <div class="row">
         <div class="col-lg-12">
             <div class="btn-toolbar" role="toolbar">
@@ -49,20 +45,27 @@
                         </div>
                     </div>
                     
-                                                
-                    <div class="form-group">
-                        <label for="role" class="col-sm-4 control-label">Rôle</label>
+                    <div class="form-group" *ngIf="authService.canWrite(user)">
+                        <label for="last_name" class="col-sm-4 control-label">Titre professionnel</label>
                         <div class="col-sm-8">
-                            <p class="form-control-static">{{ (authService.user | async)?.role }}</p>
+                            <p class="form-control-static">{{ (authService.user | async)?.professionalTitle }}</p>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="groupe" class="col-sm-4 control-label">Groupe</label>
+                        <label for="last_name" class="col-sm-4 control-label">Rôle</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static" *ngIf="authService.canWrite(user)">Mentor</p>
+                            <p class="form-control-static" *ngIf="!authService.canWrite(user)">Élève</p>
+                        </div>
+                    </div>
+                  
+                    <div class="form-group" *ngIf="!authService.canWrite(user)">
+                        <label for="last_name" class="col-sm-4 control-label">Groupe</label>
                         <div class="col-sm-8">
                             <p class="form-control-static">{{ (authService.user | async)?.group }}</p>
                         </div>
-                    </div>                           
+                    </div>            
                 </div>
             </div>
 
@@ -92,7 +95,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="!authService.canWrite(user)">
                         <label for="home_number_1" class="col-sm-4 control-label">Téléphone (maison #1)</label>
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -102,7 +105,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="!authService.canWrite(user)">
                         <label for="home_number_2" class="col-sm-4 control-label">Téléphone (maison #2)</label>
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -110,18 +113,7 @@
                                 <input class="form-control" placeholder="(555) 555-5555" [(ngModel)]="accountHomePhoneNumber2" id="accountHomePhoneNumber2" name="accountHomePhoneNumber2" type="text" value="{{ (authService.user | async)?.homePhoneNumber2 }}">                                   
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="other_number" class="col-sm-4 control-label">Téléphone (autre)</label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-building fa-fw"></i></span>
-                                <input class="form-control" placeholder="(555) 555-5555" id="other_number" name="other_number" type="text" value="" disabled>                                    
-                            </div>
-                        </div>
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
         </div>

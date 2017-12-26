@@ -23,6 +23,7 @@
     "@angular/platform-server": "^5.1.2",
     "@angular/router": "^5.1.2",
     "@sendgrid/mail": "^6.1.4",
+    "angular2-notifications": "^0.9.6",
     "angularfire2": "^5.0.0-rc.5-next",
     "bootstrap": "^3.3.7",
     "classlist.js": "^1.1.20150312",

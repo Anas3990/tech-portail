@@ -17,6 +17,7 @@ exports.processUserSignUp = functions.auth.user().onCreate(event => {
   // Set the refresh time to the current UTC timestamp.
   // This will be captured on the client to force a token refresh.
   return userRef.set({
+    approved: false,
     email: user.email,
     firstName: '',
     group: '',
@@ -28,6 +29,7 @@ exports.processUserSignUp = functions.auth.user().onCreate(event => {
     roles: {
       admin: false,
       mentor: false,
+      junior_mentor: false
     },
     uid: event.data.uid,
     refreshTime: new Date().getTime()
@@ -38,31 +40,6 @@ exports.processUserDeletion = functions.auth.user().onDelete(event => {
   const uid = event.data.uid
   return admin.firestore().doc(`/users/${uid}`).delete()
 });
-
-exports.sendMailOnEventPost = functions.firestore.document('/events/{eventId}').onCreate(event => {
-  const snapshot = event.data.data();
-
-  const db = admin.firestore()
-
-  const msg = {
-    to: 'anas.merbouh@outlook.com',
-    from: 'noreply@tech-portail-production.firebaseapp.com',
-    subject: snapshot.title,
-
-    templateId: '98a67b11-11c7-4365-ac48-28655d7cf985',
-    substitutionWrappers: ['{{', '}}'],
-    substitutions: {
-      eventTitle: snapshot.title,
-      eventId: event.params.eventId
-    }
-  };
-
-  return sgMail.send(msg).then(_ => {
-    console.log('Courriel envoyé avec succès')
-  }).catch(error => {
-    console.log(error)
-  });
-})
 
 exports.sendWebPushOnEventPost = functions.firestore.document('/events/{eventId}').onCreate(event => {
   const snapshot = event.data.data();

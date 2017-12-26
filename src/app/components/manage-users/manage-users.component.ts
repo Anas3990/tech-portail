@@ -30,91 +30,11 @@ export class ManageUsersComponent implements OnInit {
   alerts: any = [];
 
   //
-  students: User[];
-  mentors: User[];
   pendingUsers: User[];
 
   //
-  studentsSource: LocalDataSource;
-  mentorsSource: LocalDataSource;
   pendingUsersSource: LocalDataSource;
-
-  studentsSettings = {
-    columns: {
-      name: {
-        title: 'Nom',
-      },
-      firstName: {
-        title: 'Prénom',
-      },
-      email: {
-        title: 'Courriel',
-        editable: false
-      },
-      group: {
-        title: 'Groupe'
-      },
-      homePhoneNumber1: {
-        title: 'Téléphone (maison #1)'
-      },
-      homePhoneNumber2: {
-        title: 'Téléphone (maison #2)'
-      },
-      mobilePhoneNumber: {
-        title: 'Téléphone (mobile)'
-      },
-    },
-    edit: {
-      editButtonContent: "Modifier",
-      saveButtonContent: "Sauvegarder",
-      cancelButtonContent: "Annuler",
-      confirmSave: true
-    },
-    actions: {
-      delete: false
-    },
-    pager: {
-      display: false
-    },
-    hideSubHeader: true,
-    noDataMessage: "Aucun élève n'a été trouvé."
-  };
-
-  mentorsSettings = {
-    columns: {
-      name: {
-        title: 'Nom',
-      },
-      firstName: {
-        title: 'Prénom',
-      },
-      email: {
-        title: 'Courriel',
-        editable: false
-      },
-      professionalTitle: {
-        title: 'Titre professionel'
-      },
-      mobilePhoneNumber: {
-        title: 'Téléphone (mobile)'
-      },
-    },
-    edit: {
-      editButtonContent: "Modifier",
-      saveButtonContent: "Sauvegarder",
-      cancelButtonContent: "Annuler",
-      confirmSave: true
-    },
-    actions: {
-      delete: false
-    },
-    pager: {
-      display: false
-    },
-    hideSubHeader: true,
-    noDataMessage: "Aucun mentor n'a été trouvé.",
-  };
-
+ 
   pendingUsersSettings = {
     columns: {
       name: {
@@ -126,6 +46,9 @@ export class ManageUsersComponent implements OnInit {
       email: {
         title: 'Courriel',
         editable: false
+      },
+      approved: {
+        title: 'Approuver'
       }
     },
     edit: {
@@ -145,24 +68,10 @@ export class ManageUsersComponent implements OnInit {
   };
 
   constructor(private db: AngularFirestore, private dbService: FirebaseService, private authService: AuthService) { 
-    this.studentsSource = new LocalDataSource();
-    this.mentorsSource = new LocalDataSource();
     this.pendingUsersSource = new LocalDataSource();
   }
 
   ngOnInit() {
-    //
-    this.dbService.getStudents().subscribe(students => {
-      this.students = students;
-      this.studentsSource.load(students);
-    });
-
-    //
-    this.dbService.getMentors().subscribe(mentors => {
-      this.mentors = mentors;
-      this.mentorsSource.load(mentors);
-    })
-
     //
     this.dbService.getPendingUsers().subscribe(pendingUsers => {
       this.pendingUsers = pendingUsers;
@@ -184,24 +93,6 @@ export class ManageUsersComponent implements OnInit {
         msg: "Une erreur est survenue lors de la tentative de modification de l'utilisateur !"
       })
     });
-  }
-
-  onSearchStudent(query: string = '') {
-    this.studentsSource.setFilter([
-      {
-        field: 'firstName',
-        search: query
-      }
-    ], false); 
-  }
-
-  onSearchMentor(query: string = '') {
-    this.mentorsSource.setFilter([
-      {
-        field: 'firstName',
-        search: query
-      }
-    ], false); 
   }
 
   onSearchPendingUsers(query: string = '') {

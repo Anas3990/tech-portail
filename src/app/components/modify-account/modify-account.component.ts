@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Component, SecurityContext } from '@angular/core';
+import { Component, OnInit, SecurityContext  } from '@angular/core';
 
 //
 import { Router } from '@angular/router';
@@ -16,16 +16,16 @@ import * as firebase from 'firebase';
 import { AuthService } from './../../services/authentification/auth.service';
 
 //
-import { User } from 'firebase';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-modify-account',
   templateUrl: './modify-account.component.html',
   styleUrls: ['./modify-account.component.css']
 })
-export class ModifyAccountComponent {
+export class ModifyAccountComponent implements OnInit {
   //
-  alerts: any = [];
+  user: User;
 
   //
   accountMobilePhoneNumber: string;
@@ -38,30 +38,11 @@ export class ModifyAccountComponent {
   constructor(private router: Router, private afAuth: AngularFireAuth, private afs: AngularFirestore, public sanitizer: DomSanitizer, public authService: AuthService,) { 
     // 
     this.usersCollection = afs.collection('users');
-    
-    this.alerts = this.alerts.map((alert: any) => ({
-      type: alert.type,
-       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-    }));
   }
 
-  updateAccountInfos() {
-    let timestamp = firebase.firestore.FieldValue.serverTimestamp()
-    let uid = firebase.auth().currentUser.uid
-
-    this.usersCollection.doc(uid).update({
-      homePhoneNumber1: this.accountHomePhoneNumber1,
-      homePhoneNumber2: this.accountHomePhoneNumber2,
-      mobilePhoneNumber: this.accountMobilePhoneNumber
+  ngOnInit() {
+    this.authService.user.subscribe(user => {
+      this.user = user;
     })
-    .then(_ => {
-      this.router.navigate(['/profile']);
-    })
-    .catch(error => {
-      this.alerts.push({
-        type: 'danger',
-        msg: "Une erreur est survenue lors de la tentative de modification de votre compte : " + error
-      })
-    });
   }
 }

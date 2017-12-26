@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <form #attendanceForm="ngForm" (ngSubmit)="postAttendance()">
+    <form #attendanceForm="ngForm" (ngSubmit)="postAttendance()" *ngIf="isAttending == null">
       <div class="alert alert-warning">
         <i class="fa fa-question-circle fa-fw fa-3x pull-left"></i>
         <div style="margin-left: 75px;">
@@ -36,7 +36,7 @@
       </div>
     </form>
 
-    <form *ngIf="">
+    <form *ngIf="isAttending == false">
       <div class="alert alert-danger">
         <div class="row">
             <div class="col-lg-12">
@@ -62,6 +62,13 @@
         </div>
       </div>
     </form>
+
+    <div class="alert alert-success" *ngIf="isAttending == true">
+      <i class="fa fa-check-circle fa-fw"></i> 
+      <strong>Présence confirmée</strong> 
+      Merci de participer à l'évènement! 
+      <button (click)="postNonAttendance()" class="btn btn-danger btn-xs pull-right"><i class="fa fa-times-circle fa-fw"></i> Finalement, je serai absent(e)</button>
+    </div>
   </div>
 </div>
 

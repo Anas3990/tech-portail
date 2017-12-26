@@ -13,6 +13,7 @@ import * as firebase from 'firebase/app';
 
 // Permet d'utiliser les fontions du Service afin de pouvoir enregistrer les token des utilisateurs et ainsi leur envoyer des notifications
 import { CloudMessagingService } from '../FCM/cloud-messaging.service';
+import { NotifyService } from './../visual-feedback/notify.service';
 
 //
 import { User } from '../../models/User';
@@ -23,7 +24,7 @@ export class AuthService {
   //
   user: Observable<User>;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private afs: AngularFirestore, private cloudMsgService: CloudMessagingService) { 
+  constructor(private router: Router, private afAuth: AngularFireAuth, private afs: AngularFirestore, private cloudMsgService: CloudMessagingService, private notifyService: NotifyService) { 
     this.user = this.afAuth.authState
       .switchMap(user => {
         if (user) {
@@ -36,37 +37,29 @@ export class AuthService {
 
   // Fonction qui sert à créer un utilisateur sur Firebase
   signUpWith(email: string, password: string) {
-    this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then(_ => {
-        console.log("L'utilisateur a été crée avec succès")
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        console.log(user)
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        this.handleError(error);
+      });
+  }
+
+  updateUser(user: User, data: any) {
+    return this.afs.doc(`users/${user.uid}`).update(data)
   }
 
   // Fonction qui sert à connecter un utilisateur à Firebase
-  signInWith(email: string, password: string, rememberMe: boolean) {
-    if (rememberMe == true) {
-      // Si la case "Se rappeler de moi" est cochée, garder la session active jusqu'à se que l'utilisateur indique implicitement qu'il veut qu'on mette fin à sa session
-      this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(_ => {
-        this.afAuth.auth.signInWithEmailAndPassword(email, password)
-        .then(_ => {
-          this.router.navigate(['/dashboard'])
-          this.cloudMsgService.saveMessagingDeviceToken()
-        })
-        .catch(error => {
-          console.log(alert)
-        })
-      })
-      .catch(error => console.log(error))
-    } else {
+  signInWith(email: string, password: string) {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(_ => {
           this.router.navigate(['/dashboard'])
           this.cloudMsgService.saveMessagingDeviceToken()
         })
-        .catch(error => console.log(error))
-    }
+        .catch(error => {
+          this.handleError(error);
+        });
   }
 
   // Fonction sert à déconnecter un utilisateur de l'application
@@ -80,10 +73,10 @@ export class AuthService {
   sentPasswordResetEmail(email: string) {
     this.afAuth.auth.sendPasswordResetEmail(email)
       .then(_ => {
-
+        this.handleSuccess()
       })
       .catch(error => {
-
+        this.handleError(error);
       })
   }
 
@@ -121,6 +114,16 @@ export class AuthService {
     return false
   }
 
+  private checkApproval(user: User, approved: string) {
+    if (!user) return false
+
+    if (user.approved == true) {
+      return true
+    }
+
+    return false
+  }
+
   canWrite(user: User): boolean {
     const allowed = ['admin', 'mentor']
     
@@ -131,5 +134,19 @@ export class AuthService {
     const allowed = ['admin']
 
     return this.checkAuthorization(user, allowed)
+  }
+
+  isApproved(user: User): boolean {
+    const approved = 'approved'
+
+    return this.checkApproval(user, approved)
+  }
+
+  private handleError(error) {
+    this.notifyService.update(error.message, 'danger')
+  }
+
+  private handleSuccess() {
+    this.notifyService.update("L'opération a été effectuée avec succès." , 'success')
   }
 }

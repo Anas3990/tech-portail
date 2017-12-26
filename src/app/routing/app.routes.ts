@@ -143,7 +143,7 @@ export const appRoutes: Routes = [
   { path: 'users', component: TeamComponent, canActivate: [AuthGuard] },
 
   //
-  { path: 'manage-users', component: ManageUsersComponent, canActivate: [AdminGuard] },
+  { path: 'manage-users', component: ManageUsersComponent, canActivate: [AdminGuard, AuthGuard] },
 
   //
   { path: 'profile',

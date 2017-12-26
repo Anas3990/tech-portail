@@ -12,18 +12,18 @@
       
     <div class="collapse navbar-collapse" id="t4k-navbar">
       <ul class="nav navbar-nav">
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['news']" routerLinkActive="active"><i class="fa fa-bullhorn fa-fw"></i> Nouvelles</a></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['documents']" routerLinkActive="active"><i class="fa fa-file fa-fw"></i> Documents</a></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['events']" routerLinkActive="active"><i class="fa fa-calendar fa-fw"></i> Calendrier</a></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['workshop-schedule']" routerLinkActive="active"><i class="fa fa-clock-o fa-fw"></i> Horaire</a></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['users']" routerLinkActive="active"><i class="fa fa-users fa-fw"></i> Équipe</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['news']" routerLinkActive="active"><i class="fa fa-bullhorn fa-fw"></i> Nouvelles</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['documents']" routerLinkActive="active"><i class="fa fa-file fa-fw"></i> Documents</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['events']" routerLinkActive="active"><i class="fa fa-calendar fa-fw"></i> Calendrier</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['workshop-schedule']" routerLinkActive="active"><i class="fa fa-clock-o fa-fw"></i> Horaire</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['users']" routerLinkActive="active"><i class="fa fa-users fa-fw"></i> Équipe</a></li>
       </ul>
                           
       <ul class="nav navbar-nav navbar-right">
-        <li class="hidden-xs" *ngIf="authService.user | async as user"><p class="navbar-text">Bonjour, <strong>{{ user.firstName }}</strong>!</p></li>
-        <li *ngIf="authService.isAdmin(user)"><a [routerLink]="['manage-users']" routerLinkActive="active"><i class="fa fa-address-card-o fa-fw"></i> Gérer les membres</a></li>
-        <li *ngIf="authService.user | async as user"><a [routerLink]="['profile']" routerLinkActive="active"><i class="fa fa-user fa-fw"></i> Mon compte</a></li>
-        <li *ngIf="authService.user | async as user"><a (click)="authService.logout()"><i class="fa fa-power-off fa-fw"></i> Se déconnecter</a></li>
+        <li class="hidden-xs" *ngIf="authService.isApproved(user)"><p class="navbar-text">Bonjour, <strong>{{ user.firstName }}</strong>!</p></li>
+        <li *ngIf="authService.isAdmin(user) && authService.isApproved(user)"><a [routerLink]="['manage-users']" routerLinkActive="active"><i class="fa fa-address-card-o fa-fw"></i> Gérer les membres</a></li>
+        <li *ngIf="authService.isApproved(user)"><a [routerLink]="['profile']" routerLinkActive="active"><i class="fa fa-user fa-fw"></i> Mon compte</a></li>
+        <li *ngIf="authService.isApproved(user)"><a (click)="authService.logout()" [routerLink]="['users-login']"><i class="fa fa-power-off fa-fw"></i> Se déconnecter</a></li>
         <li class="dropdown hidden-xs">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-th fa-fw"></i> <i class="fa fa-caret-down fa-fw"></i></a>
             <ul class="dropdown-menu">

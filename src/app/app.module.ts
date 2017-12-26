@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule } from "@angular/router";
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
@@ -29,6 +30,8 @@ import { AuthService } from './services/authentification/auth.service';
 import { FirebaseService } from './services/database/firebase.service';
 import { UploadService } from './services/storage/upload.service';
 import { CloudMessagingService } from './services/FCM/cloud-messaging.service';
+import { NotifyService } from './services/visual-feedback/notify.service';
+
 import { NewInfosResolverService } from './services/resolvers/new-infos-resolver.service';
 import { DocumentContentResolverService } from './services/resolvers/document-content-resolver.service';
 import { EventInfosResolverService } from './services/resolvers/event-infos-resolver.service';
@@ -44,8 +47,12 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 // Module pour la pagination
 import { NgxPaginationModule } from 'ngx-pagination';
 
+// Module pour afficher les notifications
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 // Modules de NGBootstrap
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -119,12 +126,15 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     Ng2SmartTableModule,
     NgxPaginationModule,
+    SimpleNotificationsModule.forRoot(),
     AlertModule.forRoot(),
+    TooltipModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
@@ -139,6 +149,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     FirebaseService,
     UploadService,
     CloudMessagingService,
+    NotifyService,
     NewInfosResolverService,
     DocumentContentResolverService,
     EventInfosResolverService

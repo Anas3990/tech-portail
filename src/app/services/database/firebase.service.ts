@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 
 //
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 //
 import { New } from './../../models/New';
@@ -60,7 +61,7 @@ export class FirebaseService {
   attendance: Observable<Attendance>;
   nonAttendance: Observable<Attendance>;
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   //
   getNews() {
@@ -97,7 +98,7 @@ export class FirebaseService {
 
   getUpComingEvents() {
     this.upComingEventsCollection = this.afs.collection('events', ref => {
-      return ref.where('startDate', '>=', new Date());
+      return ref.where('startDate', '>', new Date()).orderBy('startDate', 'asc');
     });
 
     this.upComingEvents = this.upComingEventsCollection.snapshotChanges().map(array => {
@@ -143,9 +144,23 @@ export class FirebaseService {
     return this.nonAttendances;
   }
 
+  getUserAttendance(id) {
+    let attendanceRef = this.afs.collection('events').doc(id).collection('attendances').doc(this.afAuth.auth.currentUser.uid);
+
+    let userAttendance = attendanceRef.snapshotChanges().map(snapshot => {
+      if (snapshot.payload.exists == true) {
+        return snapshot.payload.get('present')
+      } else {
+        return null
+      }
+    })   
+    
+    return userAttendance;
+  }
+
   getPastEvents() {
     this.pastEventsCollection = this.afs.collection('events', ref => {
-      return ref.where('startDate', '<=', new Date());
+      return ref.where('startDate', '<', new Date());
     });
 
     this.pastEvents = this.pastEventsCollection.snapshotChanges().map(array => {
@@ -162,7 +177,7 @@ export class FirebaseService {
   //
   getStudents() {
     this.studentsCollection = this.afs.collection('users', ref => {
-      return ref.where('role', '==', 'junior_mentor').orderBy("name");
+      return ref.where('roles.junior_mentor', '==', 'true').where('approved', '==', 'true').orderBy("name");
     });
 
     this.students = this.studentsCollection.valueChanges();
@@ -173,7 +188,7 @@ export class FirebaseService {
   //
   getMentors() {
     this.mentorsCollection = this.afs.collection('users', ref => {
-      return ref.where('role', '==', 'mentor').orderBy("name");
+      return ref.where('roles.mentor', '==', 'true').where('approved', '==', 'true').orderBy("name");
     });
 
     this.mentors = this.mentorsCollection.valueChanges();
@@ -184,7 +199,7 @@ export class FirebaseService {
   //
   getPendingUsers() {
     this.pendingUsersCollection = this.afs.collection('users', ref => {
-      return ref.where('role', '==', 'N/A');
+      return ref.where('approved', '==', false).orderBy('name');
     });
     
     this.pendingUsers = this.pendingUsersCollection.valueChanges();
