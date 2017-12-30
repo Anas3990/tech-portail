@@ -30,6 +30,7 @@ export class AddNewComponent {
   userEmail: string;
   userName: string;
   userId: string;
+  userPhotoUrl: string
 
   //
   private newsCollection: AngularFirestoreCollection<New>;
@@ -45,6 +46,7 @@ export class AddNewComponent {
       this.userEmail = user.email
       this.userName = user.firstName + " " + user.name
       this.userId = user.uid
+      this.userPhotoUrl = user.photoUrl
     });
 
     // 
@@ -69,13 +71,14 @@ export class AddNewComponent {
         'author': {
           'email': this.userEmail,
           'name': this.userName,
-          'uid': this.userId
+          'uid': this.userId,
+          'photoUrl': this.userPhotoUrl
         },
         'timestamp': timestamp
       }).then(_ => {
         this.alerts.push({
           type: 'success',
-          msg: 'La nouvelle a été publiée avec succèes !'
+          msg: 'La nouvelle a été publiée avec succès !'
         })
       }).catch(error => {
         this.alerts.push({
@@ -90,13 +93,14 @@ export class AddNewComponent {
         'author': {
           'email': this.userEmail,
           'name': this.userName,
-          'uid': this.userId
+          'uid': this.userId,
+          'photoUrl': this.userPhotoUrl
         },
         'timestamp': timestamp
       }).then(_ => {
         this.alerts.push({
           type: 'success',
-          msg: 'La nouvelle a été publiée avec succèes !'
+          msg: 'La nouvelle a été publiée avec succès !'
         })
       }).catch(error => {
         this.alerts.push({

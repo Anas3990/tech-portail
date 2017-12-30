@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
+const FieldValue = require("firebase-admin").firestore.FieldValue;
+
 admin.initializeApp(functions.config().firebase);
 
 //
@@ -16,24 +18,48 @@ exports.processUserSignUp = functions.auth.user().onCreate(event => {
   const userRef = admin.firestore().doc("users/" + user.uid);
   // Set the refresh time to the current UTC timestamp.
   // This will be captured on the client to force a token refresh.
-  return userRef.set({
-    approved: false,
-    email: user.email,
-    firstName: '',
-    group: '',
-    homePhoneNumber1: '',
-    homePhoneNumber2: '',
-    mobilePhoneNumber: '',
-    name: '',
-    professionalTitle: '',
-    roles: {
-      admin: false,
-      mentor: false,
-      junior_mentor: false
-    },
-    uid: event.data.uid,
-    refreshTime: new Date().getTime()
-  })
+  if (user.displayName == null) {
+    return userRef.set({
+      approved: false,
+      email: user.email,
+      firstName: '',
+      group: '',
+      homePhoneNumber1: '',
+      homePhoneNumber2: '',
+      mobilePhoneNumber: '',
+      name: '',
+      photoUrl: 'https://firebasestorage.googleapis.com/v0/b/tech-portail-production.appspot.com/o/profiles-images%2Fdefault-image%2Fplaceholder-profile-image.jpg?alt=media&token=ef4fc919-1169-4cf9-8ce2-2c3792609757',
+      professionalTitle: '',
+      roles: {
+        admin: false,
+        mentor: false
+      },
+      timestamp: FieldValue.serverTimestamp(),
+      uid: event.data.uid
+    })
+  } else {
+    var fullName = input.split('~')
+    console.log(user.displayName)
+
+    return userRef.set({
+      approved: false,
+      email: user.email,
+      firstName: fullName[0],
+      group: '',
+      homePhoneNumber1: '',
+      homePhoneNumber2: '',
+      mobilePhoneNumber: '',
+      name: fullName[1],
+      photoUrl: 'https://firebasestorage.googleapis.com/v0/b/tech-portail-production.appspot.com/o/profiles-images%2Fdefault-image%2Fplaceholder-profile-image.jpg?alt=media&token=ef4fc919-1169-4cf9-8ce2-2c3792609757',
+      professionalTitle: '',
+      roles: {
+        admin: false,
+        mentor: false
+      },
+      timestamp: FieldValue.serverTimestamp(),
+      uid: event.data.uid
+    })
+  }
 });
 
 exports.processUserDeletion = functions.auth.user().onDelete(event => {

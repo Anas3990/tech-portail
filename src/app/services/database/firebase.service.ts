@@ -14,6 +14,8 @@ import { Folder } from './../../models/Folder';
 import { Event } from './../../models/Event';
 import { User } from './../../models/User';
 import { Attendance } from './../../models/Attendance';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { switchMap } from 'rxjs/operators/switchMap';
 
 @Injectable()
 export class FirebaseService {
@@ -177,7 +179,7 @@ export class FirebaseService {
   //
   getStudents() {
     this.studentsCollection = this.afs.collection('users', ref => {
-      return ref.where('roles.junior_mentor', '==', 'true').where('approved', '==', 'true').orderBy("name");
+      return ref.where('approved', '==', true).where('roles.mentor', '==', false).orderBy("name");
     });
 
     this.students = this.studentsCollection.valueChanges();
@@ -188,7 +190,7 @@ export class FirebaseService {
   //
   getMentors() {
     this.mentorsCollection = this.afs.collection('users', ref => {
-      return ref.where('roles.mentor', '==', 'true').where('approved', '==', 'true').orderBy("name");
+      return ref.where('approved', '==', true).where('roles.mentor', '==', true).orderBy("name");
     });
 
     this.mentors = this.mentorsCollection.valueChanges();
