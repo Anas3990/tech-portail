@@ -25,6 +25,9 @@ import { Attendance } from './../../models/Attendance';
 })
 export class EventInfosComponent implements OnInit {
   //
+  a2eOptions: any;
+
+  //
   timeStart: Date;
   timeEnd: Date;
 

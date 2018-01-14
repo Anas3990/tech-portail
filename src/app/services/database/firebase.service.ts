@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 
 //
 import 'rxjs/add/operator/map';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 //
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -14,8 +16,6 @@ import { Folder } from './../../models/Folder';
 import { Event } from './../../models/Event';
 import { User } from './../../models/User';
 import { Attendance } from './../../models/Attendance';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { switchMap } from 'rxjs/operators/switchMap';
 
 @Injectable()
 export class FirebaseService {
@@ -34,11 +34,9 @@ export class FirebaseService {
   folder: Observable<Folder>;
 
   //
-  upComingEventsCollection: AngularFirestoreCollection<Event>;
-  pastEventsCollection: AngularFirestoreCollection<Event>;
-
   upComingEvents: Observable<Event[]>;
   pastEvents: Observable<Event[]>;
+  currentEvents: Observable<Event[]>;
 
   eventDoc: AngularFirestoreDocument<Event>;
   event: Observable<Event>;
@@ -62,6 +60,9 @@ export class FirebaseService {
   nonAttendanceDoc: AngularFirestoreDocument<Attendance>;
   attendance: Observable<Attendance>;
   nonAttendance: Observable<Attendance>;
+
+  //
+  referenceDate: BehaviorSubject<Date> = new BehaviorSubject(new Date());
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) { }
 
@@ -99,17 +100,20 @@ export class FirebaseService {
   }
 
   getUpComingEvents() {
-    this.upComingEventsCollection = this.afs.collection('events', ref => {
-      return ref.where('startDate', '>', new Date()).orderBy('startDate', 'asc');
-    });
-
-    this.upComingEvents = this.upComingEventsCollection.snapshotChanges().map(array => {
-      return array.map(snapshot => {
-        const data = snapshot.payload.doc.data() as Event;
-        const id = snapshot.payload.doc.id;
-        return { id, ...data };
-      })
-    });
+    this.upComingEvents = this.referenceDate.pipe(
+      switchMap(date => 
+        this.afs
+            .collection<Event>('events', ref => ref.where('startDate', '>', date))
+            .snapshotChanges()
+            .map(array => { 
+              return array.map(snapshot => {
+                const data = snapshot.payload.doc.data() as Event;
+                const id = snapshot.payload.doc.id;
+                return { id, ...data };
+              })
+            }),
+      ),
+    );
 
     return this.upComingEvents;
   }
@@ -161,19 +165,39 @@ export class FirebaseService {
   }
 
   getPastEvents() {
-    this.pastEventsCollection = this.afs.collection('events', ref => {
-      return ref.where('startDate', '<', new Date());
-    });
-
-    this.pastEvents = this.pastEventsCollection.snapshotChanges().map(array => {
-      return array.map(snapshot => {
-        const data = snapshot.payload.doc.data() as Event;
-        const id = snapshot.payload.doc.id;
-        return { id, ...data };
-      })
-    });
+    this.pastEvents = this.referenceDate.pipe(
+      switchMap(date =>
+        this.afs.collection<Event>('events', ref => ref.where('endDate', '<', date).orderBy('startDate', 'desc'))
+        .snapshotChanges()
+        .map(array => {
+          return array.map(snapshot => {
+            const data = snapshot.payload.doc.data() as Event;
+            const id = snapshot.payload.doc.id;
+            return { id, ...data };
+          })
+        })
+      )
+    )
 
     return this.pastEvents;
+  }
+
+  getCurrentEvents() {
+    this.currentEvents = this.referenceDate.pipe(
+      switchMap(date => 
+        this.afs.collection<Event>('events', ref => ref.where('startDate', '<', date).where('endDate', '>', date))
+        .snapshotChanges()
+        .map(array => {
+          return array.map(snapshot => {
+            const data = snapshot.payload.doc.data() as Event;
+            const id = snapshot.payload.doc.id;
+            return { id, ...data };
+          })
+        })
+      )
+    )
+
+    return this.currentEvents;
   }
 
   //

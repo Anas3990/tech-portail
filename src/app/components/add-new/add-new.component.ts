@@ -70,9 +70,7 @@ export class AddNewComponent {
         'body': "Aucune description n'a été fournie.",
         'author': {
           'email': this.userEmail,
-          'name': this.userName,
-          'uid': this.userId,
-          'photoUrl': this.userPhotoUrl
+          'name': this.userName
         },
         'timestamp': timestamp
       }).then(_ => {
@@ -92,9 +90,7 @@ export class AddNewComponent {
         'body': this.body,
         'author': {
           'email': this.userEmail,
-          'name': this.userName,
-          'uid': this.userId,
-          'photoUrl': this.userPhotoUrl
+          'name': this.userName
         },
         'timestamp': timestamp
       }).then(_ => {

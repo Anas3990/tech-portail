@@ -18,6 +18,7 @@ import { User } from './../../models/User';
 })
 export class DashboardComponent implements OnInit {
   //
+  currentEvents: Event[];
   events: Event[];
   news: New[];
 

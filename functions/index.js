@@ -18,7 +18,6 @@ exports.processUserSignUp = functions.auth.user().onCreate(event => {
   const userRef = admin.firestore().doc("users/" + user.uid);
   // Set the refresh time to the current UTC timestamp.
   // This will be captured on the client to force a token refresh.
-  if (user.displayName == null) {
     return userRef.set({
       approved: false,
       email: user.email,
@@ -37,29 +36,15 @@ exports.processUserSignUp = functions.auth.user().onCreate(event => {
       timestamp: FieldValue.serverTimestamp(),
       uid: event.data.uid
     })
-  } else {
-    var fullName = input.split('~')
-    console.log(user.displayName)
+});
 
-    return userRef.set({
-      approved: false,
-      email: user.email,
-      firstName: fullName[0],
-      group: '',
-      homePhoneNumber1: '',
-      homePhoneNumber2: '',
-      mobilePhoneNumber: '',
-      name: fullName[1],
-      photoUrl: 'https://firebasestorage.googleapis.com/v0/b/tech-portail-production.appspot.com/o/profiles-images%2Fdefault-image%2Fplaceholder-profile-image.jpg?alt=media&token=ef4fc919-1169-4cf9-8ce2-2c3792609757',
-      professionalTitle: '',
-      roles: {
-        admin: false,
-        mentor: false
-      },
-      timestamp: FieldValue.serverTimestamp(),
-      uid: event.data.uid
-    })
-  }
+exports.processUserEdit() = functions.firestore.document('/user/{userId}').onUpdate(event => {
+  const snapshot = event.data.data();
+
+  const firstName = snapshot.firstName;
+  const name = snapshot.name;
+
+  return functions.auth.user()
 });
 
 exports.processUserDeletion = functions.auth.user().onDelete(event => {
@@ -122,7 +107,7 @@ exports.sendPushOnEventPost = functions.firestore.document('/events/{eventId}').
     }
   };
 
-  return admin.messaging().sendToTopic('/topics/teamMembers', payload)
+  return admin.messaging().sendToTopic('/topics/team_members', payload)
   .then(function(response) {
     console.log("Successfully sent message:", response);
   })

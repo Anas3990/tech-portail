@@ -54,7 +54,6 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 // Components de l'applicatoin
@@ -121,6 +120,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     ModifyAccountComponent,
     SignUpComponent,
     ForgotPasswordComponent
+
   ],
   imports: [
     BrowserModule,
@@ -136,7 +136,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
     TabsModule.forRoot(),
-    TimepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
