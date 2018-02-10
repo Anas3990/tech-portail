@@ -52,7 +52,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 
 // Modules de NGBootstrap
 import { AlertModule } from 'ngx-bootstrap/alert';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
@@ -134,7 +134,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     NgxPaginationModule,
     SimpleNotificationsModule.forRoot(),
     AlertModule.forRoot(),
-    TooltipModule.forRoot(),
+    ModalModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
     RouterModule.forRoot(appRoutes)

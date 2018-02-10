@@ -167,7 +167,7 @@ export class FirebaseService {
   getPastEvents() {
     this.pastEvents = this.referenceDate.pipe(
       switchMap(date =>
-        this.afs.collection<Event>('events', ref => ref.where('endDate', '<', date).orderBy('startDate', 'desc'))
+        this.afs.collection<Event>('events', ref => ref.where('endDate', '<', date).orderBy('endDate', 'desc'))
         .snapshotChanges()
         .map(array => {
           return array.map(snapshot => {
@@ -260,5 +260,18 @@ export class FirebaseService {
     this.folderDoc = this.afs.doc('folders/' + id);
     
     return this.folderDoc.delete();
+  }
+
+  //
+  addEvent(event: Event) {
+
+  }
+
+  editEvent(event: Event) {
+
+  }
+
+  deleteEvent(event: Event) {
+    
   }
 }

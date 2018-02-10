@@ -11,6 +11,10 @@ import { AddFileComponent } from './../add-file/add-file.component';
 import { AuthService } from './../../services/authentification/auth.service';
 
 //
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
+//
 import { Folder } from './../../models/Folder';
 import { User } from '../../models/User';
 
@@ -21,12 +25,15 @@ import { User } from '../../models/User';
 })
 export class DocumentsListComponent implements OnInit {
   //
+  bsModalRef: BsModalRef;
+
+  //
   folders: Folder[];
 
   //
   user: User;
 
-  constructor(private dbService: FirebaseService, public authService: AuthService) { }
+  constructor(private dbService: FirebaseService, private modalService: BsModalService, public authService: AuthService) { }
 
   ngOnInit() {
     this.dbService.getFolders().subscribe(folders => {
