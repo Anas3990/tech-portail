@@ -15,7 +15,7 @@ import * as firebase from 'firebase/app';
 import { CloudMessagingService } from '../FCM/cloud-messaging.service';
 import { NotifyService } from './../visual-feedback/notify.service';
 
-//
+// Permet d'utiliser le modèle d'utilisateurs
 import { User } from '../../models/User';
 
 @Injectable()
